@@ -1,11 +1,41 @@
+"""Write a program in a file named cipher.py that reads the text file raw_text.txt , 
+encrypts its contents using the scheme described below, and writes the result to 
+encrypted_text.txt . You must then write a function that decrypts that file, and a 
+function that verifies the decryption was successful."""
+
+# Function to display the welcome banner
+def welcome_banner():
+    width = 58
+    print("=" * width)
+    print("Encryption tool".center(width))
+    print("Enter values below to begin encryption".center(width))
+    print("=" * width)
+
+# Function to handle non-negative integer input validation
+def get_shift_input(prompt_text: str) -> int:
+    while True:
+        try:
+            val = int(input(prompt_text))
+            if val >= 0:
+                return val  # Exit loop and return valid value
+            print("That was not a non-negative integer! Please enter a number 0 or greater")
+        except ValueError:
+            print("That was not a non-negative integer! Please enter a number 0 or greater")
+
+#Display welcome banner
+welcome_banner()
+
+# Get user inputs using the helper function
+shift1 = get_shift_input("Enter shift1 value (non-negative integer): ")
+shift2 = get_shift_input("Enter shift2 value (non-negative integer): ")
+
 rawText = 'raw_text.txt'
 encryptedText = 'encrypted_text.txt'
 decryptedText = 'decrypted_text.txt'
-shift1 = int(input("Enter the shift value one for encryption: "))
-shift2 = int(input("Enter the shift value two for encryption: "))
+
 
 def encrypt_file(shift1, shift2, input_path, output_path):
-    with open(input_path, 'r') as file:
+    with open(input_path, 'r', encoding="utf-8") as file:
         text = file.read()   
     encrypted_text = ''
     for i, char in enumerate(text):
@@ -29,10 +59,10 @@ def encrypt_file(shift1, shift2, input_path, output_path):
             continue
 
     
-    with open(output_path, 'w') as file:
+    with open(output_path, 'w', encoding="utf-8") as file:
         file.write(encrypted_text)
 def decrypt_file(shift1, shift2, input_path, output_path):
-    with open(input_path, 'r') as file:
+    with open(input_path, 'r', encoding="utf-8") as file:
         text = file.read()   
     decrypted_text = ''
     for i, char in enumerate(text):
@@ -69,10 +99,10 @@ def decrypt_file(shift1, shift2, input_path, output_path):
             continue
 
     
-    with open(output_path, 'w') as file:
+    with open(output_path, 'w', encoding="utf-8") as file:
         file.write(decrypted_text)
 def verify_files(file1, file2):
-    with open(file1, 'r') as f1, open(file2, 'r') as f2:
+    with open(file1, 'r', encoding="utf-8") as f1, open(file2, 'r', encoding="utf-8") as f2:
         content1 = f1.read()
         content2 = f2.read()
         if content1 == content2:
