@@ -38,12 +38,12 @@ def decrypt_file(shift1, shift2, input_path, output_path):
     for i, char in enumerate(text):
         if char.isalpha():
             if char.islower():
-                if (ord(char) - 97) <= 13:
+                if (ord(char) - 97) <= 13 and ((ord(char) - 97 - (shift1 * shift2)) % 26) <= 13:
                     decrypted_text += chr((ord(char) - 97 - (shift1 * shift2)) % 26 + 97)
                 else:
                     decrypted_text += chr((ord(char) - 97 + (shift1 + shift2)) % 26 + 97)
             elif char.isupper():
-                if (ord(char) - 65) <= 12:
+                if (ord(char) - 65) <= 12 and ((ord(char) - 65 + shift1) % 26) <= 12:
                     decrypted_text += chr((ord(char) - 65 + shift1) % 26 + 65)
                 else:
                     decrypted_text += chr((ord(char) - 65 - (shift2**2)) % 26 + 65)
