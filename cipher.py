@@ -38,17 +38,30 @@ def decrypt_file(shift1, shift2, input_path, output_path):
     for i, char in enumerate(text):
         if char.isalpha():
             if char.islower():
-                if (ord(char) - 97) <= 13 and ((ord(char) - 97 - (shift1 * shift2)) % 26) <= 13:
-                    decrypted_text += chr((ord(char) - 97 - (shift1 * shift2)) % 26 + 97)
+                position = ord(char) - 97   
+                poss1 = (position - (shift1 * shift2)) % 26
+                poss2 = (position + (shift1 + shift2)) % 26
+                poss1Valid = poss1 <= 13
+                poss2Valid = poss2 > 13
+                if poss1Valid and not poss2Valid:
+                    decrypted_text += chr(poss1 + 97)
+                elif poss2Valid and not poss1Valid:
+                    decrypted_text += chr(poss2 + 97)
                 else:
-                    decrypted_text += chr((ord(char) - 97 + (shift1 + shift2)) % 26 + 97)
+                    decrypted_text += chr(poss2 + 97)
+
             elif char.isupper():
-                if (ord(char) - 65) <= 12 and ((ord(char) - 65 + shift1) % 26) <= 12:
-                    decrypted_text += chr((ord(char) - 65 + shift1) % 26 + 65)
+                position = ord(char) - 65
+                poss1 = (position + shift1) % 26
+                poss2 = (position - (shift2**2)) % 26
+                poss1Valid = poss1 <= 12
+                poss2Valid = poss2 > 12
+                if poss1Valid and not poss2Valid:
+                    decrypted_text += chr(poss1 + 65)
+                elif poss2Valid and not poss1Valid:
+                    decrypted_text += chr(poss2 + 65)
                 else:
-                    decrypted_text += chr((ord(char) - 65 - (shift2**2)) % 26 + 65)
-            else:
-                print(f"ERROR: ALPHABET CHARACTER '{char}' IS NOT UPPER OR LOWER CASE")
+                    decrypted_text += chr(poss2 + 65)
         elif char.isdigit():
             decrypted_text += str((int(char) - shift1 + shift2)%10)
         else:
